@@ -6,8 +6,8 @@ import { DEVICE_ROUTE } from '../utils/consts';
 
 const DeviceItem = ({ device }) => {
     const history = useNavigate()    
-    console.log("HISTORY!!!")
-    console.log(history)
+    //console.log("HISTORY!!!")
+    //console.log(history)
     return (
         <Col md={3} className={'mt-3'} onClick={() => history(DEVICE_ROUTE + '/' + device.id)}>
             <Card style={{ width: "150px", cursor: 'pointer' }} >
