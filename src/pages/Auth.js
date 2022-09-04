@@ -18,7 +18,7 @@ const Auth = observer(() => {
         try {
             let data;
             if (isLogin) {
-                data = await login()
+                data = await login(email, password)
             }
             else {
                 data = await registration(email, password)

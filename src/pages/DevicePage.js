@@ -1,16 +1,20 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Card, Col, Container, Image, Row } from 'react-bootstrap';
+import { useParams } from 'react-router-dom';
 import star from '../assets/red_star.png'
+import { fetchOneDevice } from '../http/deviceAPI';
 
 const DevicePage = () => {
-    const device = { id: 1, name: "Galaxy S22", price: 1049, brandId: 3, typeId: 2, rating: 5, img: 'https://media.istockphoto.com/vectors/mock-up-screen-phone-vector-id1318420912' }
-    const desc = [
-        {id: 1, title: 'qwertyyuuuuuu',desc:'desc'},
-        {id: 2, title: 'asdasdqwertyyuuuuuu',desc:'desc'},
-        {id: 3, title: 'KJADFHLKJAFHLK',desc:'desc'},
-        {id: 4, title: 'KDJFHKJDFH',desc:'desc'},
-        {id: 5, title: 'ddd',desc:'xxx'}
-    ]
+    const [device, setDevice] = useState({info:[]})
+    const {id} = useParams()
+    useEffect( ()=>{
+        fetchOneDevice(id).then(data=>setDevice(data))
+    },[])
+
+
+
+
+    //const device = { id: 1, name: "Galaxy S22", price: 1049, brandId: 3, typeId: 2, rating: 5, img: 'https://media.istockphoto.com/vectors/mock-up-screen-phone-vector-id1318420912' }
 
     const mystyle = {
         fontSize: 88,
@@ -25,7 +29,7 @@ const DevicePage = () => {
         <Container className='mt-3'>
             <Row>
                 <Col md={4} className='d-flex align-items-center justify-content-center'>
-                    <Image width={300} height={300} src={device.img} />
+                    <Image width={300} height={300} src={process.env.REACT_APP_API_URL + device.img} />
                 </Col>
                 <Col md={4}>
                     <Row className='d-flex justify-content-center'>
@@ -48,7 +52,7 @@ const DevicePage = () => {
             </Row>
             <Row className='mt-3'>
                 <h2>Характеристики:</h2>
-                {desc.map((info ,index) =>
+                {device.info.map((info ,index) =>
                     <Row key={info.id} style={{background: index%2 === 0 ? 'lightgray' : 'transparent'}} >
                         <h5>{info.title}: {info.desc}</h5>
                     </Row>
