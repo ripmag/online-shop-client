@@ -26,23 +26,18 @@ const Auth = observer(() => {
             }
             user.setUser(user)
             user.setIsAuth(true)
+            console.log(user)
             history(SHOP_ROUTE)
         }
         catch (err) {
             alert(err.response.data.message)
-
         }
-
-
     }
-
-
 
     return (
         <Container>
             <Form>
                 <Row className="justify-content-md-center align-items-center">
-
                     <Col md="6">
                         <h2 className="text-center">{isLogin ? "Авторизация" : "Регистрация"}</h2>
                         <Form.Group controlId="formBasicEmail">
@@ -60,7 +55,6 @@ const Auth = observer(() => {
                 </Row>
                 <Row className="justify-content-md-center">
                     <Col md="6">
-
                         <Form.Group controlId="formBasicPassword">
                             <Form.Label>Password</Form.Label>
                             <Form.Control
@@ -88,9 +82,7 @@ const Auth = observer(() => {
                     <Col md="3">
                         <Button
                             onClick={click}
-
                             variant="primary"
-
                             ml="3">
                             {isLogin ? "Войти" : "Зарегестрироваться"}
                         </Button>

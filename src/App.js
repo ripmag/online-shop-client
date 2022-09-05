@@ -12,7 +12,7 @@ const App = observer ( () => {
   const [loading, setLoading] = useState(true)
   
   useEffect(()=>{
-    check().then(data=>{
+    check().then(data=>{      
       user.setUser(data)
       user.setIsAuth(true)
     }).finally( () => setLoading(false))
@@ -20,8 +20,7 @@ const App = observer ( () => {
 
   if (loading) {
     return <Spinner animation={"grow"}/>
-  }
-
+  }  
 
   return (
     <BrowserRouter>

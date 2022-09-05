@@ -1,20 +1,24 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Button, Card, Col, Container, Image, Row } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
 import star from '../assets/red_star.png'
+import { addToBasket } from '../http/basketAPI';
 import { fetchOneDevice } from '../http/deviceAPI';
+import { Context } from '../index';
 
 const DevicePage = () => {
-    const [device, setDevice] = useState({info:[]})
-    const {id} = useParams()
-    useEffect( ()=>{
-        fetchOneDevice(id).then(data=>setDevice(data))
-    },[])
-
-
-
-
-    //const device = { id: 1, name: "Galaxy S22", price: 1049, brandId: 3, typeId: 2, rating: 5, img: 'https://media.istockphoto.com/vectors/mock-up-screen-phone-vector-id1318420912' }
+    const [device, setDevice] = useState({ info: [] })
+    const { id } = useParams()
+    const { user } = useContext(Context)
+    useEffect(() => {
+        fetchOneDevice(id).then(data => setDevice(data))
+    }, [])
+    const toBasket = (deviceId, userId) => {
+        const formData = new FormData()
+        formData.append('deviceId', deviceId)
+        formData.append('basketId', userId)
+        addToBasket(formData)
+    }    
 
     const mystyle = {
         fontSize: 88,
@@ -44,19 +48,21 @@ const DevicePage = () => {
                 </Col>
                 <Col md={4}>
                     <Card className='d-flex flex-column align-items-center justify-content-around'
-                    style={{ width:250, height:300}}>
+                        style={{ width: 250, height: 300 }}>
                         <h3 className="text-center"> От: {device.price} EUR</h3>
-                        <Button>Добавить в корзину</Button>
+                        <Button
+                            onClick={() => toBasket(device.id, user.user.id)}
+                        >Добавить в корзину</Button>
                     </Card>
                 </Col>
             </Row>
             <Row className='mt-3'>
                 <h2>Характеристики:</h2>
-                {device.info.map((info ,index) =>
-                    <Row key={info.id} style={{background: index%2 === 0 ? 'lightgray' : 'transparent'}} >
+                {device.info.map((info, index) =>
+                    <Row key={info.id} style={{ background: index % 2 === 0 ? 'lightgray' : 'transparent' }} >
                         <h5>{info.title}: {info.desc}</h5>
                     </Row>
-                    )}
+                )}
             </Row>
         </Container>
     );
